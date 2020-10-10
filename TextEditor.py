@@ -57,6 +57,9 @@ class TextEditor(QMainWindow):
         self.button3.move(250, 150)
         self.button3.clicked.connect(self.open_nn_window)
 
+        self.button3 = QPushButton('Bishop Position', self)
+        self.button3.move(250, 210)
+        self.button3.clicked.connect(self.open_bi_window)
 
         self.show()
 
@@ -85,6 +88,15 @@ class TextEditor(QMainWindow):
         self.getValues();
         self.show()
         #self.window.show()
+
+    def open_bi_window(self):
+        self.window = QtWidgets.QMainWindow()
+        self.window.resize(600, 400)
+        self.setWindowTitle('Bishop')
+        text, okPressed = QInputDialog.getText(self, "Get text", "Your position:", QLineEdit.Normal, "")
+        if okPressed and text != '':
+            self.getPositionsOfBishop(text);
+        self.show()
 
     @pyqtSlot()
     def on_click(self):
@@ -313,6 +325,71 @@ class TextEditor(QMainWindow):
         cmap = {False: (0, 0, 200), True: (255, 255, 0)}
         brushes = [pg.mkBrush(cmap[x]) for x in cols]
         pg.plot(a, b, pen=None, symbol='o', symbolBrush=brushes)
+
+    def getPositionsOfBishop(self, position):
+        startPosition = {
+            "a": 1,
+            "b": 2,
+            "c": 3,
+            "d": 4,
+            "e": 5,
+            "f": 6,
+            "g": 7,
+            "h": 8
+        }
+        finalPositions = {
+            1: "a",
+            2: "b",
+            3: "c",
+            4: "d",
+            5: "e",
+            6: "f",
+            7: "g",
+            8: "h",
+        }
+        b1 = [char for char in position]
+        x0 = startPosition[b1[0]]
+        y0 = int(b1[1])
+
+        x = x0
+        y = y0
+        lista = []
+
+        while x >= 1 and y >= 1:
+            if (x != x0 and y != y0):
+                lista.append((finalPositions[x], y))
+            x -= 1
+            y -= 1
+
+        x = x0
+        y = y0
+
+        while x <= 8 and y <= 8:
+            if (x != x0 and y != y0):
+                lista.append((finalPositions[x], y))
+            x += 1
+            y += 1
+
+        x = x0
+        y = y0
+
+        while x <= 8 and y >= 1:
+            if (x != x0 and y != y0):
+                lista.append((finalPositions[x], y))
+            x += 1
+            y -= 1
+
+        x = x0
+        y = y0
+
+        while x >= 1 and x <= 8:
+            if (x != x0 and y != y0):
+                lista.append((finalPositions[x], y))
+            x -= 1
+            y += 1
+
+        print(lista)
+
 
 #Main Function
 if __name__ == '__main__':
