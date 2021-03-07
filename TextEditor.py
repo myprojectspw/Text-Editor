@@ -53,9 +53,9 @@ class TextEditor(QMainWindow):
         self.button2.move(250, 90)
         self.button2.clicked.connect(self.open_new_window)
 
-        self.button3 = QPushButton('Algorithm NN', self)
+        self.button3 = QPushButton('GCD algorithm', self)
         self.button3.move(250, 150)
-        self.button3.clicked.connect(self.open_nn_window)
+        self.button3.clicked.connect(self.open_gcd_window)
 
         self.button3 = QPushButton('Bishop Position', self)
         self.button3.move(250, 210)
@@ -78,14 +78,17 @@ class TextEditor(QMainWindow):
         self.show()
         #self.window.show()
 
-    def open_nn_window(self):
+    def open_gcd_window(self):
         self.button.hide()
         self.button2.hide()
         self.button3.hide()
         self.window = QtWidgets.QMainWindow()
         self.window.resize(600, 400)
-        self.setWindowTitle('NN')
-        self.getValues();
+        self.setWindowTitle('GCD')
+        a, okPressed = QInputDialog.getText(self, "Get a", "Your position:", QLineEdit.Normal, "")
+        b, okPressed = QInputDialog.getText(self, "Get b", "Your position:", QLineEdit.Normal, "")
+        if okPressed and a != '' and b != '':
+            print(self.getGCD(int(a),int(b)));
         self.show()
         #self.window.show()
 
@@ -308,23 +311,14 @@ class TextEditor(QMainWindow):
                 #jak nie to pojedynczy kwadracik
                 self.mainLayout.addWidget(button, *position)
 
-    def getValues(self):
-        df = pd.read_csv("C:/Users/pa-wo/Desktop/Praca/Projekty Programistyczne/Text-Editor/leaf.csv", header=None)
-        data = df[(df[0] == 3) | (df[0] == 5)]
-        train, test = train_test_split(data.copy(), test_size=0.2, random_state=123)
-        print(train[5])
-        plt.scatter(x=train[2], y=train[5])
-        a = train[2].tolist()
-        b = train[5].tolist()
-        cols = []
-        for l in train[0]:
-            if l == 5:
-                cols.append(False)
-            else:
-                cols.append(True)
-        cmap = {False: (0, 0, 200), True: (255, 255, 0)}
-        brushes = [pg.mkBrush(cmap[x]) for x in cols]
-        pg.plot(a, b, pen=None, symbol='o', symbolBrush=brushes)
+    def getGCD(self, a, b):
+        return self.hcfnaive(a, b)
+
+    def hcfnaive(self, a, b):
+        if (b == 0):
+            return a
+        else:
+            return self.hcfnaive(b, a % b)
 
     def getPositionsOfBishop(self, position):
         startPosition = {
