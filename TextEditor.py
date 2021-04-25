@@ -44,10 +44,10 @@ class TextEditor(QMainWindow):
         self.setWindowTitle('Menu')
         self.resize(600, 400)
         self.statusBar()
-        self.button = QPushButton('Start', self)
-        self.button.setToolTip('Open Editor')
-        self.button.move(250, 30)
-        self.button.clicked.connect(self.on_click)
+        # self.button = QPushButton('Start', self)
+        # self.button.setToolTip('Open Editor')
+        # self.button.move(250, 30)
+        # self.button.clicked.connect(self.on_click)
 
         self.button2 = QPushButton('Open Calculator', self)
         self.button2.move(250, 90)
@@ -79,9 +79,9 @@ class TextEditor(QMainWindow):
         #self.window.show()
 
     def open_gcd_window(self):
-        self.button.hide()
-        self.button2.hide()
-        self.button3.hide()
+        # self.button.hide()
+        # self.button2.hide()
+        # self.button3.hide()
         self.window = QtWidgets.QMainWindow()
         self.window.resize(600, 400)
         self.setWindowTitle('GCD')
